@@ -67,7 +67,7 @@ export default function InputForm() {
     setApiError('');
 
     try {
-      const res = await fetch('/api/create-checkout', {
+      const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -81,11 +81,11 @@ export default function InputForm() {
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || 'Failed to create checkout session.');
+        throw new Error(data.error || 'Failed to start report generation.');
       }
 
-      const { checkoutUrl } = await res.json();
-      window.location.href = checkoutUrl;
+      const { sessionId } = await res.json();
+      window.location.href = `/report/${sessionId}`;
     } catch (err: unknown) {
       setApiError(err instanceof Error ? err.message : 'An unexpected error occurred.');
       setLoading(false);
@@ -209,20 +209,20 @@ export default function InputForm() {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
             </svg>
-            Redirecting to payment…
+            Generating report…
           </>
         ) : (
           <>
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
-            Generate Report — $2.50
+            Generate Report
           </>
         )}
       </button>
 
       <p className="text-xs text-slate-400 text-center">
-        Secure payment via Stripe. Your report is generated immediately after payment.
+        Your report is generated immediately after submission.
       </p>
     </form>
   );
