@@ -4,10 +4,8 @@ import { getStripe } from '@/lib/stripe';
 import { getEntry, updateEntry } from '@/lib/store';
 import { generateCreditReport } from '@/lib/claude';
 
-// Next.js requires raw body for Stripe signature verification
-export const config = {
-  api: { bodyParser: false },
-};
+// App Router route handlers receive the raw stream by default — no bodyParser config needed.
+// We read it with req.text() which gives Stripe the raw bytes for signature verification.
 
 export async function POST(req: NextRequest) {
   const rawBody = await req.text();
