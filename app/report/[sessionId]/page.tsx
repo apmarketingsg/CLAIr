@@ -8,7 +8,7 @@ import Link from 'next/link';
 type Status = 'pending' | 'processing' | 'ready' | 'error' | 'not_found';
 
 const STATUS_MESSAGES: Record<string, string> = {
-  pending: 'Payment confirmed. Preparing your assessment…',
+  pending: 'Preparing your assessment…',
   processing: 'Claude is researching and analysing your buyer. This usually takes 60–90 seconds…',
 };
 
